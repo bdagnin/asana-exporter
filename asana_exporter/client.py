@@ -384,7 +384,7 @@ class AsanaProjectTaskStories(AsanaResourceBase):
                                       json.dumps(s))
         time.sleep(0)
         for s in html_stories:
-            self._export_write_locked(os.path.join(path, s['gid'] + '_html.json'),
+            self._export_write_locked(os.path.join(path, 'html', s['gid']),
                                       json.dumps(s))
 
         self._export_write_locked(self._local_store, json.dumps(stories))
