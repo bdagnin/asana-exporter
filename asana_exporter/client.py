@@ -372,13 +372,19 @@ class AsanaProjectTaskStories(AsanaResourceBase):
             os.makedirs(path)
 
         stories = []
+        html_stories = []
         for s in self.client.stories.find_by_task(self.task['gid']):
             stories.append(self.client.stories.get_story(s['gid']))
+            html_stories.append(self.client.stories.get_story(s['gid'], {'opt_fields':['html_text']}))
 
         # yield
         time.sleep(0)
         for s in stories:
             self._export_write_locked(os.path.join(path, s['gid']),
+                                      json.dumps(s))
+        time.sleep(0)
+        for s in html_stories:
+            self._export_write_locked(os.path.join(path, s['gid'] + '_html.json'),
                                       json.dumps(s))
 
         self._export_write_locked(self._local_store, json.dumps(stories))
