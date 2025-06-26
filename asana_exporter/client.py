@@ -373,7 +373,7 @@ class AsanaProjectTaskStories(AsanaResourceBase):
 
         stories = []
         for s in self.client.stories.find_by_task(self.task['gid']):
-            stories.append(self.client.stories.get_story(s['gid'], {'opt_fields':['html_text', 'previews']}))
+            stories.append(self.client.stories.get_story(s['gid']))
 
         # yield
         time.sleep(0)
