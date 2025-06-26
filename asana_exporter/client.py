@@ -370,6 +370,10 @@ class AsanaProjectTaskStories(AsanaResourceBase):
         path = os.path.join(self.root_path, 'stories')
         if not os.path.isdir(path):
             os.makedirs(path)
+        path_html = os.path.join(self.root_path, 'stories_html')
+        if not os.path.isdir(path_html):
+            os.makedirs(path_html)
+
 
         stories = []
         html_stories = []
@@ -384,7 +388,7 @@ class AsanaProjectTaskStories(AsanaResourceBase):
                                       json.dumps(s))
         time.sleep(0)
         for s in html_stories:
-            self._export_write_locked(os.path.join(path, 'html', s['gid']),
+            self._export_write_locked(os.path.join(path_html, s['gid']),
                                       json.dumps(s))
 
         self._export_write_locked(self._local_store, json.dumps(stories))
