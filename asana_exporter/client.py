@@ -255,7 +255,7 @@ class AsanaProjectTasks(AsanaResourceBase):
             if not os.path.isdir(task_path):
                 os.makedirs(task_path)
 
-            fulltask = self.client.tasks.find_by_id(t['gid'])
+            fulltask = self.client.tasks.get_task(t['gid'], {'opt_fields': ['created_by', 'dependencies', 'dependents', 'html_notes', 'memberships', 'custom_fields', 'followers', 'projects', 'tags', 'permalink_url']})
             self._export_write_locked(task_json_path, json.dumps(fulltask))
 
         self._export_write_locked(self._local_store, json.dumps(tasks))
@@ -320,7 +320,7 @@ class AsanaTaskSubTasks(AsanaResourceBase):
             if not os.path.isdir(task_path):
                 os.makedirs(task_path)
 
-            fulltask = self.client.tasks.find_by_id(t['gid'])
+            fulltask = self.client.tasks.get_task(t['gid'], {'opt_fields': ['created_by', 'dependencies', 'dependents', 'html_notes', 'memberships', 'custom_fields', 'followers', 'projects', 'tags', 'permalink_url']})
             self._export_write_locked(task_json_path, json.dumps(fulltask))
 
         self._export_write_locked(self._local_store, json.dumps(subtasks))
@@ -373,7 +373,7 @@ class AsanaProjectTaskStories(AsanaResourceBase):
 
         stories = []
         for s in self.client.stories.find_by_task(self.task['gid']):
-            stories.append(s)
+            stories.append(self.client.stories.get_story(s['gid'], {'opt_fields':['html_text', 'previews']}))
 
         # yield
         time.sleep(0)
